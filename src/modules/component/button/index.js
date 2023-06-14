@@ -8,7 +8,14 @@ const template = `
     :type="nativeType"
     @click="onClick"
   >
-    <slot></slot>
+  <i v-if="prefixIcon" :class="prefixIconClass.v()"></i>
+  <i
+    v-if="loading"
+    :class="loadingIcon"
+    class="layui-icon layui-anim layui-anim-rotate layui-anim-loop"
+  ></i>
+  <span v-else><slot></slot></span>
+  <i v-if="suffixIcon" :class="suffixIconClass.v()"></i>
   </button>
 
 `
@@ -43,12 +50,13 @@ const button = {
     }
   },
   template: template,
-  data: function () {
-    return {
-      data: '我是listBase数据'
-    }
-  },
   computed: {
+    prefixIconClass() {
+      return `layui-icon ${this.prefixIcon}`
+    },
+    suffixIconClass() {
+      return `layui-icon ${this.suffixIcon}`
+    },
     classes() {
       return [
         {
@@ -62,16 +70,19 @@ const button = {
       ]
     },
     styles() {
-      console.log(this.borderStyle, 'this.borderStyle')
       return {
         border: `1px ${this.borderStyle}`
       }
     }
   },
-  mounted: function () {
-    console.log(this.classes.v(), 'classes')
-    console.log(this, '组件')
+  data: function () {
+    return {
+      data: '我是listBase数据'
+    }
+  },
 
+  mounted: function () {
+    console.log(this, '组件')
   },
   methods: {
     onClick() {
