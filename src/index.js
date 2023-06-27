@@ -4,6 +4,7 @@ import { AmeInput } from './modules/index'
 import ame from './vendor/ame'
 
 const template = `
+      <ame-button border="red" size="lg">主要按钮</ame-button>
       <ame-input> 主要按钮
         <div v-slot:prepend>1234</div>
       </ame-input>
