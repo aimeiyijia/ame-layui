@@ -20,8 +20,8 @@
 
   //a-b => aB
   function hyphenToCamelCase(str) {
-    if (typeof str !== "string") {
-      throw new TypeError("Argument must be a string")
+    if (typeof str !== 'string') {
+      throw new TypeError('Argument must be a string')
     }
     return str.replace(/-([a-z])/g, function (match, p1) {
       return String.fromCharCode(p1.charCodeAt(0) - 32)
@@ -30,14 +30,14 @@
 
   // aB => a-b
   function camelCaseToHyphen(str) {
-    if (typeof str !== "string") {
-      throw new Error("Parameter must be a string")
+    if (typeof str !== 'string') {
+      throw new Error('Parameter must be a string')
     }
     return str
       .replace(/[A-Z]/g, function (match) {
-        return "-" + match.toLowerCase()
+        return '-' + match.toLowerCase()
       })
-      .replace(/^-/, "")
+      .replace(/^-/, '')
   }
 
   function strictEquals(value1, value2) {
@@ -45,8 +45,8 @@
       // 如果两个值相等，返回 true
       return true
     } else if (
-      typeof value1 === "number" &&
-      typeof value2 === "number" &&
+      typeof value1 === 'number' &&
+      typeof value2 === 'number' &&
       isNaN(value1) &&
       isNaN(value2)
     ) {
@@ -147,12 +147,12 @@
     }
   }
 
-  var trim = "".trim
+  var trim = ''.trim
     ? function (string) {
         return string.trim()
       }
     : function (string) {
-        return String(string).replace(/^\s+|\s+$/g, "")
+        return String(string).replace(/^\s+|\s+$/g, '')
       }
 
   function toNumber(value) {
@@ -162,9 +162,9 @@
 
   function strVars(s, vs) {
     for (var k in vs) {
-      s = s.replace(RegExp(k, "g"), vs[k])
+      s = s.replace(RegExp(k, 'g'), vs[k])
     }
-    return s + "\n"
+    return s + '\n'
   }
 
   function parseText(text) {
@@ -173,10 +173,10 @@
       text
         // }}(["\]){{ -> "\"text\\"
         .replace(/(^|}}).*?({{|$)/g, function ($) {
-          return $.replace(/\\/g, "\\\\").replace(/"/g, '\\"')
+          return $.replace(/\\/g, '\\\\').replace(/"/g, '\\"')
         })
         // \n -> "\n code"
-        .replace(/\r?\n/g, "\\n")
+        .replace(/\r?\n/g, '\\n')
         // {{exp}} -> "+(exp)+"
         .replace(/{{(.*?)}}/g, '"+($1)+"') +
       //
@@ -185,15 +185,15 @@
   }
 
   function parseFilter(text) {
-    var arr = text.replace("||", "\r\r").split("|")
-    var exp = arr[0].replace("\r\r", "||")
+    var arr = text.replace('||', '\r\r').split('|')
+    var exp = arr[0].replace('\r\r', '||')
     arr.shift()
     var code = exp
     forEach(arr, function (item) {
       if (!item.match(/\(/)) {
-        code = "$FILTER." + item + "( " + code + " )"
+        code = '$FILTER.' + item + '( ' + code + ' )'
       } else {
-        code = "$FILTER." + item.replace(/\(/, "( " + code + ", ")
+        code = '$FILTER.' + item.replace(/\(/, '( ' + code + ', ')
       }
     })
     return code
@@ -212,7 +212,7 @@
   }
 
   function insertBefore(node, target) {
-    if (!node.nodeType && "length" in node) {
+    if (!node.nodeType && 'length' in node) {
       forEach(toArray(node), function (node) {
         insertBefore(node, target)
       })
@@ -225,19 +225,19 @@
     node.parentNode.removeChild(node)
   }
 
-  var parseEl = createElement("div")
+  var parseEl = createElement('div')
 
   function parseHTML(html) {
     parseEl.innerHTML = html
     var el = parseEl.children[0] || parseEl.childNodes[0]
     parseEl.removeChild(el) // ie8-: 如不移除就清空， el 的子节点也会被清空
-    parseEl.innerHTML = ""
+    parseEl.innerHTML = ''
     return el
   }
 
   function outerHTML(node) {
     if (node.outerHTML) return node.outerHTML
-    parseEl.innerHTML = ""
+    parseEl.innerHTML = ''
     parseEl.appendChild(node.cloneNode(true))
     return parseEl.innerHTML
   }
@@ -269,7 +269,7 @@
     // 'text': 'innerText',
     // 'html': 'innerHTML'
   }
-  for (var name in createElement("input")) {
+  for (var name in createElement('input')) {
     if (!name.match(/[A-Z]/)) continue
     attrPropMap[name.toLowerCase()] = name
   }
@@ -286,12 +286,12 @@
           // ie
           type =
             {
-              input: "keyup",
-              focus: "focusin",
-              blur: "focusout"
+              input: 'keyup',
+              focus: 'focusin',
+              blur: 'focusout'
             }[type] || type
 
-          node.attachEvent("on" + type, function () {
+          node.attachEvent('on' + type, function () {
             var event = window.event
             event.target = event.srcElement
             event.preventDefault = function () {
@@ -321,7 +321,7 @@
 
   var live = function (node, type, fn, useCapture) {
     // true: 事件捕捉。 focus, blur 等事件不支持冒泡
-    useCapture = "focus,blur".match(type) ? true : useCapture
+    useCapture = 'focus,blur'.match(type) ? true : useCapture
     on(
       document,
       type,
@@ -337,15 +337,15 @@
   var canSetUidOnTextNode = (function () {
     // ie8-: false
     try {
-      return (document.createTextNode("").uid = true)
+      return (document.createTextNode('').uid = true)
     } catch (e) {}
   })()
 
   var isCloneTextNodeAutoConcat = (function () {
     // ie8-: true
-    var parent = document.createElement("div")
-    var text1 = document.createTextNode("1")
-    var text2 = document.createTextNode("2")
+    var parent = document.createElement('div')
+    var text1 = document.createTextNode('1')
+    var text2 = document.createTextNode('2')
     parent.appendChild(text1)
     parent.appendChild(text2)
     var cloneNode = parent.cloneNode(true)
@@ -358,7 +358,7 @@
   function setUid(node, uid) {
     if (node.nodeType == 1) {
       node.uid = uid
-      SHOW.uid && node.setAttribute("uid", uid) // @dev
+      SHOW.uid && node.setAttribute('uid', uid) // @dev
     } else if (node.nodeType == 3) {
       if (canSetUidOnTextNode) {
         node.uid = uid
@@ -392,7 +392,7 @@
 
     // @dev
     // VNode(uid) -> vnode
-    if (typeof node != "object") {
+    if (typeof node != 'object') {
       return VNode.map[node]
     }
 
@@ -423,7 +423,7 @@
     getAttrs: function (node) {
       var attrs = {}
       forEach(node.attributes, function (attribute) {
-        if (attribute.specified || attribute.nodeName == "value") {
+        if (attribute.specified || attribute.nodeName == 'value') {
           // ie || ie7-
           attrs[attribute.nodeName] = attribute.nodeValue
         }
@@ -442,20 +442,20 @@
 
         var nodeName = attribute.nodeName
         var nodeValue = attribute.nodeValue
-        if (nodeName == "for" && !nodeValue.match(/ (in|of) /)) return
+        if (nodeName == 'for' && !nodeValue.match(/ (in|of) /)) return
 
         // dir                      v-    .on  .:  @  on    :  click   .mdf.s
         var m =
           nodeName.match(/^(?:v-)?(\.on|[.:]|@|[^.:]+):?([^.]+)?(.*)/) || []
         var name = m[1]
-        if (name == ".") name = "property"
-        if (name == ":") name = "property"
-        if (name == "bind") name = "property"
-        if (name == ".on") name = "on"
-        if (name == "@") name = "on"
+        if (name == '.') name = 'property'
+        if (name == ':') name = 'property'
+        if (name == 'bind') name = 'property'
+        if (name == '.on') name = 'on'
+        if (name == '@') name = 'on'
         // if (name == "slot") name = "slot"
         // if (name == "#") name = "slot"
-        if (name == "else-if") name = "elseif"
+        if (name == 'else-if') name = 'elseif'
 
         if (name in VNode.prototype) {
           // 指令就是虚拟节点的方法
@@ -465,13 +465,13 @@
           var dir = {
             nodeName: nodeName,
             name: name,
-            arg: m[2] || "",
-            mdfs: m[3] || "",
+            arg: m[2] || '',
+            mdfs: m[3] || '',
             exp: nodeValue || '""'
           }
 
           // var $dirs = "pre,for,if,elseif,else,model,is,slot".split(",") // 特殊指令
-          var $dirs = "pre,for,if,elseif,else,model,is".split(",") // 特殊指令
+          var $dirs = 'pre,for,if,elseif,else,model,is'.split(',') // 特殊指令
           if (includes($dirs, name)) {
             dirs[name] = dir
           } else {
@@ -491,12 +491,12 @@
           var vnode = vm.$VN(uid)
 
           if (child.nodeName.match(/slot/i)) {
-            name = child.getAttribute("name")
-            var scopedSlots = VM._scopedSlots[name || "default"]
+            name = child.getAttribute('name')
+            var scopedSlots = VM._scopedSlots[name || 'default']
             if (scopedSlots) {
               vm.$slotData[scopedSlots.name] = vnode.propertys
             }
-            slots[name || "default"] = child
+            slots[name || 'default'] = child
           }
           loop.call(self, child)
         })
@@ -536,10 +536,10 @@
         }
       }
       if (childNodes.length) {
-        slotContents["default"] = childNodes
-        VM._scopedSlots["default"] = {
-          name: "default",
-          value: "",
+        slotContents['default'] = childNodes
+        VM._scopedSlots['default'] = {
+          name: 'default',
+          value: '',
           slotContents: childNodes
         }
       }
@@ -583,11 +583,11 @@
         return name in propertys ? propertys[name] : this.node[name]
       }
       // set
-      if (name == "class") {
+      if (name == 'class') {
         this.setClass(value)
         return
       }
-      if (name == "style") {
+      if (name == 'style') {
         this.setStyle(value)
         return
       }
@@ -600,10 +600,10 @@
       return (propertys[name] = this.node[name] = value)
     },
     text: function (value) {
-      this.property("innerText", value)
+      this.property('innerText', value)
     },
     html: function (value) {
-      this.property("innerHTML", value)
+      this.property('innerHTML', value)
     },
     setStyle: function (map) {
       var style = (this.style = this.style || {})
@@ -617,15 +617,18 @@
       }
     },
     hasClass: function (name) {
-      return this.node.className.match(RegExp("(^| )" + name + "( |$)", "i"))
+      return this.node.className.match(RegExp('(^| )' + name + '( |$)', 'i'))
     },
     addClass: function (name) {
-      this.node.className += " " + name.replace(/, ?/g, " ")
+      this.node.className += ' ' + name.replace(/, ?/g, ' ')
+    },
+    removeAllClass: function () {
+      this.node.className = ''
     },
     removeClass: function (name) {
       this.node.className = this.node.className.replace(
-        RegExp("(^| )" + name + "(?= |$)", "ig"),
-        ""
+        RegExp('(^| )' + name + '(?= |$)', 'ig'),
+        ''
       )
     },
     setClass: function (data) {
@@ -646,7 +649,7 @@
       if (isArray(data)) {
         for (var key in data) {
           var value = data[key]
-          if (typeof value == "object") {
+          if (typeof value == 'object') {
             setClassObj.call(this, value)
           } else {
             if (!classes[value]) {
@@ -660,7 +663,7 @@
       }
     },
     show: function (value) {
-      this.setStyle({ display: value ? "" : "none" })
+      this.setStyle({ display: value ? '' : 'none' })
     },
     hide: function (value) {
       this.show(!value)
@@ -674,8 +677,8 @@
       }
       return {
         value: value,
-        elseif: this["elseif"],
-        else: this["else"]
+        elseif: this['elseif'],
+        else: this['else']
       }
     },
     elseif: function (vnode, value, fn) {
@@ -689,7 +692,7 @@
       }
       return {
         value: this.value || value,
-        else: this["else"]
+        else: this['else']
       }
     },
     else: function (vnode, fn) {
@@ -703,7 +706,7 @@
     mark: function () {
       if (this.markNode) return
       var node = this.node
-      var mark = document.createTextNode("")
+      var mark = document.createTextNode('')
       if (SHOW.mark || !canSetUidOnTextNode) {
         var mark = document.createComment(this.uid) // @dev
         // var mark = document.createComment(node.outerHTML) // @dev
@@ -751,7 +754,7 @@
       function loop(forNode, cloneNode) {
         var uid = VNode.getUid(forNode)
         // save cloneNode
-        uid && VNode(cloneNode, uid + "." + key) // **!!!**
+        uid && VNode(cloneNode, uid + '.' + key) // **!!!**
 
         var forChildNodes = forNode.childNodes
         var childNodes = cloneNode.childNodes
@@ -790,7 +793,7 @@
       var forKeyPath = vm.$VN.forKeyPath // **!!!**
       each(list, function (item, key, index) {
         // clone
-        vm.$VN.forKeyPath = forKeyPath + "." + key // **!!!**
+        vm.$VN.forKeyPath = forKeyPath + '.' + key // **!!!**
         var vnode = vfor.clone(key)
         vnode.index = index
 
@@ -853,7 +856,7 @@
       // m -> v
       function updateView(i) {
         var self = this
-        if (!this._ieDelay && document.readyState != "complete" && i < 5) {
+        if (!this._ieDelay && document.readyState != 'complete' && i < 5) {
           // ie: 刷新页面表单还保留上次的值
           setTimeout(function () {
             updateView.call(self, ++i)
@@ -863,21 +866,21 @@
         this._ieDelay = true
 
         // checkbox
-        if (node.type == "checkbox") {
+        if (node.type == 'checkbox') {
           // array
           if (value instanceof Array) {
-            var has = includes(value, vnode.property("value"))
-            vnode.property("checked", has)
+            var has = includes(value, vnode.property('value'))
+            vnode.property('checked', has)
           }
           // boolean
           else {
-            vnode.property("checked", value)
+            vnode.property('checked', value)
           }
         }
         // radio
-        else if (node.type == "radio") {
-          var eq = vnode.property("value") === value // ==?
-          vnode.property("checked", eq)
+        else if (node.type == 'radio') {
+          var eq = vnode.property('value') === value // ==?
+          vnode.property('checked', eq)
         }
         // select
         else if (node.nodeName.match(/^select$/i)) {
@@ -889,19 +892,19 @@
 
               // array [multiple]
               if (value instanceof Array) {
-                var bool = includes(value, voption.property("value"))
-                voption.property("selected", bool)
+                var bool = includes(value, voption.property('value'))
+                voption.property('selected', bool)
               }
               // one
               else {
-                vnode.property("value", value)
+                vnode.property('value', value)
 
-                if (voption.property("value") === value) {
+                if (voption.property('value') === value) {
                   // ==?
-                  voption.property("selected", true)
+                  voption.property('selected', true)
                   hasSelected = true
                 } else {
-                  voption.property("selected", false) // !ie
+                  voption.property('selected', false) // !ie
                 }
               }
             })
@@ -914,40 +917,40 @@
         // input textarea ..
         else {
           // if ((document.hasFocus && document.hasFocus() )&& document.activeElement == node) return
-          vnode.property("value", value)
+          vnode.property('value', value)
         }
       }
 
       updateView.call(this, 0)
 
       // v -> m
-      var type = "input"
-      if (mdfs.match(".lazy")) type = "change"
-      if (node.type == "checkbox") type = "click"
-      if (node.type == "radio") type = "click"
-      if (node.nodeName.match(/^select$/i)) type = "change"
+      var type = 'input'
+      if (mdfs.match('.lazy')) type = 'change'
+      if (node.type == 'checkbox') type = 'click'
+      if (node.type == 'radio') type = 'click'
+      if (node.nodeName.match(/^select$/i)) type = 'change'
 
-      this.on(type, ".model", function (e) {
+      this.on(type, '.model', function (e) {
         var node = this.node
 
         // checkbox
-        if (node.type == "checkbox") {
+        if (node.type == 'checkbox') {
           // array
           if (value instanceof Array) {
             var array = value
             if (node.checked) {
               this.propertys.checked = true
-              array.push(this.property("value"))
+              array.push(this.property('value'))
             } else {
               this.propertys.checked = false
-              remove(array, this.property("value"))
+              remove(array, this.property('value'))
             }
           } else {
             obj[key] = this.propertys.checked = node.checked
           }
-        } else if (node.type == "radio") {
+        } else if (node.type == 'radio') {
           node.checked = true // ie7-: 没有name属性无法选中 ![name] -> click false
-          obj[key] = this.property("value")
+          obj[key] = this.property('value')
         }
         // select
         else if (node.nodeName.match(/^select$/i)) {
@@ -956,18 +959,18 @@
             if (value instanceof Array) {
               if (option.selected) {
                 voption.propertys.selected = true
-                if (!includes(value, voption.property("value"))) {
-                  value.push(voption.property("value"))
+                if (!includes(value, voption.property('value'))) {
+                  value.push(voption.property('value'))
                 }
               } else {
                 voption.propertys.selected = false
-                remove(value, voption.property("value"))
+                remove(value, voption.property('value'))
               }
             } else {
               if (option.selected) {
-                vnode.property("value", voption.property("value"))
+                vnode.property('value', voption.property('value'))
                 voption.propertys.selected = true
-                obj[key] = voption.property("value")
+                obj[key] = voption.property('value')
               } else {
                 voption.propertys.selected = false
               }
@@ -977,10 +980,10 @@
         // input textarea ..
         else {
           var nodeValue = node.value
-          if (mdfs.match(".trim")) {
+          if (mdfs.match('.trim')) {
             nodeValue = trim(nodeValue)
           }
-          if (mdfs.match(".number")) {
+          if (mdfs.match('.number')) {
             nodeValue = toNumber(nodeValue)
           }
           obj[key] = this.propertys.value = nodeValue
@@ -999,7 +1002,7 @@
         var options = VM.optionsMap[name]
         if (!options) {
           setTimeout(function () {
-            throw name + " is not a component"
+            throw name + ' is not a component'
           }, 1)
           return
         }
@@ -1062,7 +1065,7 @@
 
     // data
     var data = options.data
-    if (typeof options.data == "function") {
+    if (typeof options.data == 'function') {
       data = options.data()
     }
     VM.setData(this, data)
@@ -1108,7 +1111,7 @@
     }
 
     // template
-    var template = options.template || (el ? outerHTML(el) : "<b>^_^</b>")
+    var template = options.template || (el ? outerHTML(el) : '<b>^_^</b>')
     // this.$template = template // @dev
 
     // $el
@@ -1122,14 +1125,14 @@
       return vnode.vcomponent || vnode
     }
     this.$vid = incVid()
-    SHOW.vid && this.$el.setAttribute("vid", this.$vid)
-    this.$VN.forKeyPath = ""
+    SHOW.vid && this.$el.setAttribute('vid', this.$vid)
+    this.$VN.forKeyPath = ''
     this.$render = function (vms) {
       var renderTimeStart = new Date()
       var self = this
 
       // timeGap
-      var timeGap = 1000 / 24
+      var timeGap = 1000 / 1000
       var now = +new Date()
       var lastTime = this.$render.lastTime || 0
       if (now - lastTime < timeGap) {
@@ -1186,8 +1189,8 @@
   VM.prototype = {
     queue: [],
     $on: function (event, fn, ctx) {
-      if (typeof fn !== "function") {
-        console.error("listener must be a function")
+      if (typeof fn !== 'function') {
+        console.error('listener must be a function')
         return
       }
 
@@ -1280,7 +1283,7 @@
             })
             VNode(uid).is('com')
             */
-      var code = ""
+      var code = ''
 
       scan(node)
 
@@ -1290,7 +1293,7 @@
             // <component>
             var tag = node.nodeName.toLowerCase()
             if (VM.optionsMap[tag]) {
-              node.setAttribute("is", tag)
+              node.setAttribute('is', tag)
             }
 
             // dirs
@@ -1304,18 +1307,18 @@
             }
 
             // for
-            var dir = dirs["for"]
+            var dir = dirs['for']
             if (dir) {
               var for_ = dir.exp
               var item_list = for_.split(/ (?:in|of) /)
               var list_ = item_list[1]
               var item_ = item_list[0]
-              var key_ = "$key"
-              var index_ = "$index"
+              var key_ = '$key'
+              var index_ = '$index'
 
               var item_m = item_.match(/\((.*)\)/) // (item, key, index)
               if (item_m) {
-                var item_key_index = item_m[1].split(",")
+                var item_key_index = item_m[1].split(',')
                 item_ = item_key_index[0]
                 key_ = item_key_index[1]
                 index_ = item_key_index[2]
@@ -1323,83 +1326,83 @@
               code += strVars(
                 '$THISVM.$VN(@id)["for"]( $THISVM, @list, function( @item, @key, @index ){ ',
                 {
-                  "@id": vnode.uid,
-                  "@list": list_,
-                  "@item": item_,
-                  "@key": key_,
-                  "@index": index_
+                  '@id': vnode.uid,
+                  '@list': list_,
+                  '@item': item_,
+                  '@key': key_,
+                  '@index': index_
                 }
               )
             }
             // if
-            var dir = dirs["if"]
+            var dir = dirs['if']
             if (dir) {
               vnode.isIf = true // if for insert
               code += strVars('$THISVM.$VN(@id)["if"]( @value, function(){ ', {
-                "@id": vnode.uid,
-                "@value": dir.exp
+                '@id': vnode.uid,
+                '@value': dir.exp
               })
             }
             // elseif
-            var dir = dirs["elseif"]
+            var dir = dirs['elseif']
             if (dir) {
               code += strVars(
                 '["elseif"]( $THISVM.$VN(@id), @value, function(){ ',
                 {
-                  "@id": vnode.uid,
-                  "@value": dir.exp
+                  '@id': vnode.uid,
+                  '@value': dir.exp
                 }
               )
             }
             // else
-            var dir = dirs["else"]
+            var dir = dirs['else']
             if (dir) {
               code += strVars('["else"]( $THISVM.$VN(@id), function(){ ', {
-                "@id": vnode.uid
+                '@id': vnode.uid
               })
             }
 
             // dirs
             each(dirs, function (dir) {
               switch (dir.name) {
-                case "on":
+                case 'on':
                   code += strVars(
                     '$THISVM.$VN(@id).on("@type", "@mdfs", function($event){ @code ;$THISVM.$render()})',
                     {
-                      "@id": vnode.uid,
-                      "@type": dir.arg,
-                      "@mdfs": dir.mdfs,
-                      "@code": dir.exp.match(/[(=+-]/)
+                      '@id': vnode.uid,
+                      '@type': dir.arg,
+                      '@mdfs': dir.mdfs,
+                      '@code': dir.exp.match(/[(=+-]/)
                         ? dir.exp // 语句
-                        : dir.exp + "($event)" // handler
+                        : dir.exp + '($event)' // handler
                     }
                   )
                   break
-                case "property":
+                case 'property':
                   code += strVars(
                     '$THISVM.$VN(@id).property("@name", @value)',
                     {
-                      "@id": vnode.uid,
-                      "@name": attr2prop(dir.arg),
-                      "@value": dir.exp
+                      '@id': vnode.uid,
+                      '@name': attr2prop(dir.arg),
+                      '@value': dir.exp
                     }
                   )
                   break
-                case "ref":
+                case 'ref':
                   code += strVars('$THISVM.$VN(@id).ref($THISVM, "@name")', {
-                    "@id": vnode.uid,
-                    "@name": dir.exp
+                    '@id': vnode.uid,
+                    '@name': dir.exp
                   })
                   break
                 default:
                   code += strVars(
                     '$THISVM.$VN(@id)["@dir"](@value, "@arg", "@mdfs")',
                     {
-                      "@id": vnode.uid,
-                      "@dir": dir.name,
-                      "@arg": dir.arg,
-                      "@mdfs": dir.mdfs,
-                      "@value": dir.exp
+                      '@id': vnode.uid,
+                      '@dir': dir.name,
+                      '@arg': dir.arg,
+                      '@mdfs': dir.mdfs,
+                      '@value': dir.exp
                     }
                   )
               }
@@ -1407,9 +1410,9 @@
 
             // model
             // 放于 :value 后
-            var dir = dirs["model"]
+            var dir = dirs['model']
             if (dir) {
-              var obj_ = "$THISVM"
+              var obj_ = '$THISVM'
               var key_ = '"' + dir.exp + '"'
               //                       obj     .key  | ['key' ]
               var okm = dir.exp.match(/(.+)(?:\.(.+?)|\[(.+?)\])\s*$/)
@@ -1421,10 +1424,10 @@
               code += strVars(
                 '$THISVM.$VN(@id).model( @obj, @key, "@mdfs", $THISVM )',
                 {
-                  "@id": vnode.uid,
-                  "@obj": obj_,
-                  "@key": key_,
-                  "@mdfs": dir.mdfs
+                  '@id': vnode.uid,
+                  '@obj': obj_,
+                  '@key': key_,
+                  '@mdfs': dir.mdfs
                 }
               )
             }
@@ -1436,11 +1439,11 @@
 
             // is
             // 要放在所有指令最后，等property等指令设置完才能获取数据更新组件
-            var dir = dirs["is"]
+            var dir = dirs['is']
             if (dir) {
               code += strVars('$THISVM.$VN(@id).is($THISVM, "@name")', {
-                "@id": vnode.uid,
-                "@name": dir.exp
+                '@id': vnode.uid,
+                '@name': dir.exp
               })
             }
 
@@ -1451,46 +1454,46 @@
             }
 
             // end: for if elseif else
-            if (dirs["for"]) code += "})\n"
-            if (dirs["if"]) code += "})\n"
-            if (dirs["elseif"]) code += "})\n"
-            if (dirs["else"]) code += "})\n"
+            if (dirs['for']) code += '})\n'
+            if (dirs['if']) code += '})\n'
+            if (dirs['elseif']) code += '})\n'
+            if (dirs['else']) code += '})\n'
 
             break
           case 3: // text
             var nodeValue = String(node.nodeValue) // ie: null, boolean
 
             // {{}}
-            if (nodeValue.match("{{")) {
+            if (nodeValue.match('{{')) {
               var nodeValue = node.nodeValue
-              var arr = nodeValue.split("}}")
+              var arr = nodeValue.split('}}')
               node.nodeValue = arr.pop()
               forEach(arr, function (t_e_) {
-                var t_e = t_e_.split("{{") // text {{ exp
+                var t_e = t_e_.split('{{') // text {{ exp
                 var text = t_e[0]
                 var exp = t_e[1]
                 var textNode = createTextNode(text)
                 insertBefore(textNode, node)
                 isCloneTextNodeAutoConcat &&
-                  insertBefore(createComment("exp:"), node)
+                  insertBefore(createComment('exp:'), node)
                 if (!textNode.nodeValue) {
                   // ie: !''
                   removeChild(textNode)
                 }
 
                 // {{ exp }}
-                var expNode = createTextNode(" ") // ie: !''
+                var expNode = createTextNode(' ') // ie: !''
                 insertBefore(expNode, node)
                 isCloneTextNodeAutoConcat &&
-                  insertBefore(createComment("exp;"), node)
+                  insertBefore(createComment('exp;'), node)
 
                 var vexp = VNode(expNode)
 
                 code += strVars(
                   '$THISVM.$VN(@id).property( "nodeValue", @value )',
                   {
-                    "@id": vexp.uid,
-                    "@value": parseFilter(exp)
+                    '@id': vexp.uid,
+                    '@value': parseFilter(exp)
                   }
                 )
               })
@@ -1504,7 +1507,9 @@
         }
       }
 
-      var render = Function("var $THISVM=this;with(this){\n" + code + "\n}")
+      console.log(code, 'node')
+
+      var render = Function('var $THISVM=this;with(this){\n' + code + '\n}')
       return render
     },
     injectFunction: function (vm, fn) {
@@ -1547,7 +1552,7 @@
           var self = new Image(width, height)
           setTimeout(function () {
             each(self, function (handler, name) {
-              if (name.match(/^on/) && typeof handler == "function") {
+              if (name.match(/^on/) && typeof handler == 'function') {
                 self[name] = VM.injectFunction(vm, function () {
                   handler.apply(self, arguments)
                 })
@@ -1562,7 +1567,7 @@
         XHRprototype.send = function () {
           var self = this
           each(self, function (handler, name) {
-            if (name.match(/^on/) && typeof handler == "function") {
+            if (name.match(/^on/) && typeof handler == 'function') {
               self[name] = VM.injectFunction(vm, function () {
                 handler.apply(this, arguments)
               })
@@ -1586,7 +1591,7 @@
       }
 
       // computed
-      if (String(fn).match("return")) {
+      if (String(fn).match('return')) {
         // ie8-: log(vm) -> vm.method.toString()
         $fn.toJSON =
           $fn.toString =
@@ -1609,10 +1614,10 @@
       for (var propKey in props) {
         var propValue = props[propKey]
 
-        if (typeof propValue == "object") {
-          if (hasOwn(propValue, "default")) {
+        if (typeof propValue == 'object') {
+          if (hasOwn(propValue, 'default')) {
             propsObj[propKey] = propValue.default
-          } else if (hasOwn(propValue, "type")) {
+          } else if (hasOwn(propValue, 'type')) {
             propsObj[propKey] = propValue.type()
           }
         } else {
@@ -1625,7 +1630,7 @@
       for (var key in data) {
         if (!hasOwn(data, key)) continue
         var item = data[key]
-        if (typeof item == "function") {
+        if (typeof item == 'function') {
           vm[key] = VM.injectFunction(vm, item)
         } else {
           vm[key] = item
@@ -1635,7 +1640,7 @@
     setWatch: function (vm, data) {
       for (var key in data) {
         var item = data[key]
-        if (typeof item == "function") {
+        if (typeof item == 'function') {
           // VM.injectFunction(this, item)
           VM.watchStores[key] = {
             newVal: vm[key],
@@ -1643,7 +1648,7 @@
             fn: item
           }
         } else {
-          if (item.handler && typeof item.handler == "function") {
+          if (item.handler && typeof item.handler == 'function') {
             VM.watchStores[key] = {
               newVal: vm[key],
               oldVal: vm[key],
@@ -1653,7 +1658,7 @@
               item.handler.call(vm, vm[key], vm[key])
             }
           } else {
-            console.error("watch [" + key + "] handler must be function")
+            console.error('watch [' + key + '] handler must be function')
           }
         }
       }
@@ -1693,9 +1698,9 @@
 
     var args = toArray(arguments, 1)
     args.unshift(this)
-    if (typeof plugin.install === "function") {
+    if (typeof plugin.install === 'function') {
       plugin.install.apply(plugin, args)
-    } else if (typeof plugin === "function") {
+    } else if (typeof plugin === 'function') {
       plugin.apply(null, args)
     }
     installedPlugins.push(plugin)
@@ -1704,7 +1709,7 @@
 
   // export
   VM.VNode = VNode
-  if (typeof module == "object") {
+  if (typeof module == 'object') {
     module.exports = VM
   } else {
     window.V = VM

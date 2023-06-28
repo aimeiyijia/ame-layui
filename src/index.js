@@ -3,11 +3,12 @@ import { AmeInput } from './modules/index'
 
 import ame from './vendor/ame'
 
+{
+  /* <ame-button border="red" size="lg">主要按钮</ame-button> */
+}
+
 const template = `
-      <ame-button border="red" size="lg">主要按钮</ame-button>
-      <ame-input> 主要按钮
-        <div v-slot:prepend>1234</div>
-      </ame-input>
+      <ame-input size="lg" v-model="789" @input="handleInput"></ame-input>
     `
 var div = document.createElement('div')
 div.innerHTML = template
@@ -23,10 +24,9 @@ var vm = new ame({
     model: '123'
   },
   methods: {
-    handleTestEvent() {
-      this.model++
-      console.log('主 test-event')
-      this.$render()
-    }
+    handleInput(val) {
+      console.log('input', val)
+    },
+    handleTestEvent() {}
   }
 })

@@ -8,15 +8,10 @@ $input-md: 38px;
 $input-sm: 32px;
 $input-xs: 26px;
 
-// .set-size($size) {
-//   & {
-//     height: $size;
-//     .layui-input {
-//       height: $size;
-//       line-height: $size;
-//     }
-//   }
-// }
+@mixin setSize($size) {
+  height: $size;
+  line-height: $size;
+}
 
 .layui-input {
   width: 100%;
@@ -29,7 +24,7 @@ $input-xs: 26px;
   display: inline-flex;
 }
 
-.layui-input input{
+.layui-input input {
   height: 38px;
   line-height: 38px;
   background-color: transparent;
@@ -115,7 +110,7 @@ $input-xs: 26px;
 }
 
 .layui-input-disabled {
-  border-color: var(--input-border-color)!important;
+  border-color: var(--input-border-color) !important;
 }
 
 .layui-input-disabled {
@@ -127,25 +122,19 @@ $input-xs: 26px;
   cursor: not-allowed !important;
 }
 
-.layui-input{
-  // &[size="lg"] {
-  //   & {
-  //     height: $size;
-  //     .layui-input {
-  //       height: $size;
-  //       line-height: $size;
-  //     }
-  //   }
-  // }
-  // &[size="md"] {
-  //   .set-size(@input-md);
-  // }
-  // &[size="sm"] {
-  //   .set-size(@input-sm);
-  // }
-  // &[size="xs"] {
-  //   .set-size(@input-xs);
-  // }
+.layui-input {
+  &.layui-input-lg {
+    @include setSize($input-lg);
+  }
+  &.layui-input-md {
+    @include setSize($input-md);
+  }
+  &.layui-input-sm {
+    @include setSize($input-sm);
+  }
+  &.layui-input-xs {
+    @include setSize($input-xs);
+  }
 }
 
 .layui-input input::-webkit-outer-spin-button,
